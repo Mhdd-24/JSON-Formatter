@@ -1,4 +1,3 @@
-// app.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -25,33 +24,23 @@ export class AppComponent {
       this.currentJSON = null;
       return;
     }
-  
+
     try {
-      // First try to parse as is
       let jsonObj;
+
       try {
+        // Try parsing raw JSON first
         jsonObj = JSON.parse(input);
-      } catch (e) {
-        // If that fails, try handling escaped JSON
-        // Remove any leading/trailing quotes if present
-        let cleanInput = input.replace(/^["']|["']$/g, '');
-        
-        // Handle escaped quotes and backslashes
-        cleanInput = cleanInput.replace(/\\"/g, '"')  // Replace \" with "
-                              .replace(/\\\\/g, '\\'); // Replace \\ with \
-        
-        // Try parsing again
+      } catch (e1) {
         try {
-          jsonObj = JSON.parse(cleanInput);
+          // Try unescaping if input is a JSON string literal of escaped JSON
+          const unescaped = JSON.parse(`"${input}"`);
+          jsonObj = JSON.parse(unescaped);
         } catch (e2) {
-          // If that also fails, try removing specific problematic characters
-          cleanInput = input.replace(/^\{\\/, '{')
-                           .replace(/\\"/g, '"')
-                           .replace(/\\\\/g, '\\');
-          jsonObj = JSON.parse(cleanInput);
+          throw new SyntaxError('Invalid JSON input');
         }
       }
-      
+
       this.currentJSON = jsonObj;
       this.displayJSON();
     } catch (error: any) {
@@ -64,15 +53,12 @@ export class AppComponent {
 
     switch (this.currentView) {
       case 'formatted':
-        // Pretty print with indentation
         this.formattedOutput = this.syntaxHighlight(JSON.stringify(this.currentJSON, null, 4));
         break;
       case 'tree':
-        // Create interactive tree view
         this.formattedOutput = this.createTreeView(this.currentJSON);
         break;
       case 'compact':
-        // Compact without formatting
         this.formattedOutput = this.syntaxHighlight(JSON.stringify(this.currentJSON));
         break;
     }
@@ -89,28 +75,12 @@ export class AppComponent {
     Object.keys(json).forEach((key) => {
       const value = json[key];
       const isComplex = typeof value === 'object' && value !== null;
-      
+
       html += '<div class="json-tree-item">';
-      
-      // Add expand/collapse arrow for objects and arrays
-      if (isComplex) {
-        html += '<span class="tree-toggle">▼</span> ';
-      } else {
-        html += '<span class="tree-spacer"></span> ';
-      }
-      
-      // Key with colon (purple for keys)
+      html += isComplex ? '<span class="tree-toggle">▼</span> ' : '<span class="tree-spacer"></span> ';
       html += `<span class="json-key">${isArray ? '' : key}</span>`;
       if (!isArray) html += '<span class="json-colon">: </span>';
-      
-      // Value
-      if (isComplex) {
-        const childContent = this.createTreeView(value);
-        html += `<div class="json-children">${childContent}</div>`;
-      } else {
-        html += this.formatPrimitive(value);
-      }
-      
+      html += isComplex ? `<div class="json-children">${this.createTreeView(value)}</div>` : this.formatPrimitive(value);
       html += '</div>';
     });
 
@@ -127,23 +97,18 @@ export class AppComponent {
   }
 
   syntaxHighlight(json: string): string {
-    // Simple syntax highlighting for JSON
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, 
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
       (match) => {
         let cls = 'json-number';
         if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-            cls = 'json-key';
-          } else {
-            cls = 'json-string';
-          }
+          cls = /:$/.test(match) ? 'json-key' : 'json-string';
         } else if (/true|false/.test(match)) {
           cls = 'json-boolean';
         } else if (/null/.test(match)) {
           cls = 'json-null';
         }
-        return '<span class="' + cls + '">' + match + '</span>';
+        return `<span class="${cls}">${match}</span>`;
       });
   }
 
@@ -176,17 +141,9 @@ export class AppComponent {
     if (!this.currentJSON) return;
 
     try {
-      let textToCopy;
-      switch (this.currentView) {
-        case 'formatted':
-          textToCopy = JSON.stringify(this.currentJSON, null, 4);
-          break;
-        case 'compact':
-          textToCopy = JSON.stringify(this.currentJSON);
-          break;
-        default:
-          textToCopy = JSON.stringify(this.currentJSON);
-      }
+      const textToCopy = this.currentView === 'formatted'
+        ? JSON.stringify(this.currentJSON, null, 4)
+        : JSON.stringify(this.currentJSON);
 
       await navigator.clipboard.writeText(textToCopy);
       alert('Copied to clipboard!');
@@ -201,24 +158,17 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
-    // Add event listener for tree toggle functionality
     this.elementRef.nativeElement.addEventListener('click', (e: Event) => {
       const target = e.target as HTMLElement;
-      if (target && target.classList.contains('tree-toggle')) {
+      if (target?.classList.contains('tree-toggle')) {
         const treeItem = target.closest('.json-tree-item') as HTMLElement;
-        if (treeItem) {
-          const children = treeItem.querySelector('.json-children') as HTMLElement;
-          if (children) {
-            if (children.style.display === 'none') {
-              children.style.display = 'block';
-              target.textContent = '▼';
-            } else {
-              children.style.display = 'none';
-              target.textContent = '►';
-            }
-          }
+        const children = treeItem?.querySelector('.json-children') as HTMLElement;
+        if (children) {
+          const isCollapsed = children.style.display === 'none';
+          children.style.display = isCollapsed ? 'block' : 'none';
+          target.textContent = isCollapsed ? '▼' : '►';
         }
       }
     });
-  } 
-} 
+  }
+}

@@ -1,29 +1,28 @@
-/* left-panel.component.css
-.left-panel-container {
+/* Full page layout */
+.layout {
     display: flex;
     flex-direction: column;
-    width: 47%;
-    height: 49.5rem;
-    position: fixed;
-    top: 70px;
-    gap: 14px;
-    background: #e7f8ff;
-    border: 1px solid #e7f8ff;
-    border-radius: 12px;
-    padding: 12px;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.left-panel-header {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
+/* Header and footer */
+.header,
+.footer {
+    flex-shrink: 0;
+    background-color: #002953;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 30px;
 }
 
 .btn {
     border-radius: 12px;
     padding: 10px;
-    border: 1px solid skyblue;
+    border: 1px solid #002953;
     background: bisque;
     color: red;
     font-size: 14px;
@@ -34,140 +33,58 @@
     transition: background 0.3s;
 }
 
-textarea {
-    height: 46.5rem;
-    resize: none;
-    padding: 10px;
-    font-family: monospace;
-    font-size: 14px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    background: #fff;
-    color: #333;
+/* Main content scrollable area */
+.container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    background: #002953;
 }
 
-@media (max-width: 600px) {
-    .left-panel-container {
-        width: 95%;
-        height: 13.5rem;
-        position: relative;
-        padding: 10px;
-        gap: 12px;
-    }
-    .left-panel-header {
-        flex-direction: row;
-        display: flex;
-        align-items: stretch;
-        flex-wrap: nowrap;
-    }
-    .btn {
-        width: 100%;
-        font-size: 13px;
-        padding: 10px;
-    }
-    textarea {
-        height: 10rem;
-    }
-}
-
-
-.right-panel-container {
+/* Left and right panel */
+.lt-panel,
+.rt-panel {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    width: 48%;
-    height: 49.5rem;
-    position: fixed;
-    top: 70px;
-    gap: 14px;
-    background: #e7f8ff;
-    border: 1px solid #e7f8ff;
-    border-radius: 12px;
-    padding: 12px;
-
-    .right-panel-header {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px;
-
-        .btn {
-            border-radius: 12px;
-            padding: 10px;
-            border: 1px solid skyblue;
-            background: bisque;
-            color: red;
-            font-size: 14px;
-            font-weight: 700;
-            font-family: monospace;
-            line-height: 18px;
-            cursor: pointer;
-            transition: background 0.3s;
-
-            &:hover {
-                background: #ff8000;
-                color: black;
-            }
-        }
-    }
-
-    .output-container {
-        height: 46.5rem;
-        resize: none;
-        padding: 10px;
-        font-family: monospace;
-        font-size: 14px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        background: #fff;
-        color: #333;
-    }
+    margin: 5px;
+    background: #fff;
+    border-radius: 4px;
 }
 
+/* Panel headers */
+.panel-header {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    background: black;
+    border-bottom: 2px solid #ccc;
+    justify-content: right;
+}
 
-@media (max-width: 600px) {
-    .right-panel-container {
-        width: 95%;
-        height: 15.5rem;
-        position: relative;
-        padding: 10px;
-        gap: 12px;
+/* Textarea */
+textarea {
+    flex: 1;
+    padding: 20px;
+    font-family: monospace;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    resize: none;
+}
 
-        .right-panel-header {
-            flex-direction: row;
-            display: flex;
-            align-items: stretch;
-            flex-wrap: nowrap;
-
-            .btn {
-                width: 100%;
-                font-size: 13px;
-                padding: 10px;
-            }
-        }
-
-        .output-container {
-            height: 10rem;
-        }
-    }
-} */
-
-
-
-
-
-
-/* Add these styles to your CSS file */
+/* JSON Output styles */
 .output-container {
     flex: 1;
-    padding: 10px;
+    padding: 20px;
     overflow: auto;
     font-family: monospace;
-    font-size: 14px;
+    font-size: 16px;
     white-space: pre-wrap;
-    border: 1px solid #ddd;
+    border-top: 1px solid #ccc;
 }
 
-/* Syntax highlighting for JSON */
+/* JSON syntax colors */
 .json-string {
     color: #d64747;
 }
@@ -225,23 +142,38 @@ textarea {
     width: 12px;
 }
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    background: #002953;
-}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        overflow: auto;
+    }
 
-.panel {
-    width: 100%;
-    height: 100%;
-}
+    .lt-panel,
+    .rt-panel {
+        margin: 10px 0;
+        width: 100%;
+    }
 
+    .panel-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
 
-.panel-header {
-    display: flex;
-    padding: 10px;
-    background: white;
-    border: 1px solid #002953;
+    .btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    textarea,
+    .output-container {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .header,
+    .footer {
+        font-size: 22px;
+        padding: 0.8rem;
+    }
 }

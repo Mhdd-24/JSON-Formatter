@@ -1,7 +1,13 @@
+<div class="layout">
+  <!-- Header -->
+  <header class="header">
+    JSON Formatter
+  </header>
 
-<!-- app.component.html -->
-<div class="container">
-    <div class="panel">
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Left Panel -->
+    <div class="lt-panel">
       <div class="panel-header">
         <button (click)="formatJSON()" class="btn btn-primary">JSON To Format</button>
         <button (click)="clear()" class="btn btn-secondary">Clear</button>
@@ -9,8 +15,9 @@
       </div>
       <textarea [(ngModel)]="jsonInput" placeholder="Enter JSON Here"></textarea>
     </div>
-  
-    <div class="panel">
+
+    <!-- Right Panel -->
+    <div class="rt-panel">
       <div class="panel-header">
         <button (click)="setView('formatted')" [class]="'btn ' + (currentView === 'formatted' ? 'btn-primary' : 'btn-secondary')">Formatted JSON</button>
         <button (click)="setView('tree')" [class]="'btn ' + (currentView === 'tree' ? 'btn-primary' : 'btn-secondary')">Tree View</button>
@@ -19,4 +26,10 @@
       </div>
       <div id="formattedOutput" [innerHTML]="formattedOutput" class="output-container"></div>
     </div>
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Mohammed Rafi
+  </footer>
+</div>
