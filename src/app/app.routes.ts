@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { JsonFormatterComponent } from '../pages/json-formatter/json-formatter.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
     {
         path: 'json-formatter',
-        component: JsonFormatterComponent
+        component: AppComponent
     }
 ];

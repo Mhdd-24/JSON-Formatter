@@ -1,0 +1,247 @@
+/* left-panel.component.css
+.left-panel-container {
+    display: flex;
+    flex-direction: column;
+    width: 47%;
+    height: 49.5rem;
+    position: fixed;
+    top: 70px;
+    gap: 14px;
+    background: #e7f8ff;
+    border: 1px solid #e7f8ff;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.left-panel-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid skyblue;
+    background: bisque;
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: monospace;
+    line-height: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+textarea {
+    height: 46.5rem;
+    resize: none;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+    .left-panel-container {
+        width: 95%;
+        height: 13.5rem;
+        position: relative;
+        padding: 10px;
+        gap: 12px;
+    }
+    .left-panel-header {
+        flex-direction: row;
+        display: flex;
+        align-items: stretch;
+        flex-wrap: nowrap;
+    }
+    .btn {
+        width: 100%;
+        font-size: 13px;
+        padding: 10px;
+    }
+    textarea {
+        height: 10rem;
+    }
+}
+
+
+.right-panel-container {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    height: 49.5rem;
+    position: fixed;
+    top: 70px;
+    gap: 14px;
+    background: #e7f8ff;
+    border: 1px solid #e7f8ff;
+    border-radius: 12px;
+    padding: 12px;
+
+    .right-panel-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .btn {
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid skyblue;
+            background: bisque;
+            color: red;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: monospace;
+            line-height: 18px;
+            cursor: pointer;
+            transition: background 0.3s;
+
+            &:hover {
+                background: #ff8000;
+                color: black;
+            }
+        }
+    }
+
+    .output-container {
+        height: 46.5rem;
+        resize: none;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 14px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: #333;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .right-panel-container {
+        width: 95%;
+        height: 15.5rem;
+        position: relative;
+        padding: 10px;
+        gap: 12px;
+
+        .right-panel-header {
+            flex-direction: row;
+            display: flex;
+            align-items: stretch;
+            flex-wrap: nowrap;
+
+            .btn {
+                width: 100%;
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+
+        .output-container {
+            height: 10rem;
+        }
+    }
+} */
+
+
+
+
+
+
+/* Add these styles to your CSS file */
+.output-container {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    border: 1px solid #ddd;
+}
+
+/* Syntax highlighting for JSON */
+.json-string {
+    color: #d64747;
+}
+
+.json-number {
+    color: #0066cc;
+}
+
+.json-boolean {
+    color: #8533cc;
+}
+
+.json-null {
+    color: #ff9900;
+}
+
+.json-key {
+    color: #7f0055;
+    font-weight: bold;
+}
+
+.json-colon {
+    color: #999;
+}
+
+/* Tree view styles */
+.json-tree {
+    font-family: monospace;
+    padding-left: 0;
+}
+
+.json-tree-item {
+    padding: 2px 0;
+    position: relative;
+}
+
+.json-children {
+    padding-left: 20px;
+    border-left: 1px dotted #ccc;
+    margin-left: 2px;
+}
+
+.tree-toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    line-height: 10px;
+    color: #555;
+}
+
+.tree-spacer {
+    display: inline-block;
+    width: 12px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    background: #002953;
+}
+
+.panel {
+    width: 100%;
+    height: 100%;
+}
+
+
+.panel-header {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border: 1px solid #002953;
+}
