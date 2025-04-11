@@ -1,0 +1,9 @@
+<div class="right-panel-container">
+    <div class="panel-header">
+      <button (click)="setView('formatted')" [class]="'btn ' + (currentView() === 'formatted' ? 'btn-primary' : 'btn-secondary')">Formatted JSON</button>
+      <button (click)="setView('tree')" [class]="'btn ' + (currentView() === 'tree' ? 'btn-primary' : 'btn-secondary')">Tree View</button>
+      <button (click)="setView('compact')" [class]="'btn ' + (currentView() === 'compact' ? 'btn-primary' : 'btn-secondary')">Compact</button>
+      <button (click)="copy()" class="btn btn-secondary">Copy</button>
+    </div>
+    <div id="formattedOutput" [innerHTML]="formattedOutput()" class="output-container"></div>
+  </div>
